@@ -1,0 +1,35 @@
+[package]
+name = "substreams-uniswap"
+version = "0.1.0"
+description = "Substream modules for Uniswap"
+edition = "2021"
+repository = "https://github.com/fubhy/substreams-uniswap"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+ethabi = "17.0"
+hex-literal = "0.3.4"
+prost = "0.10.1"
+substreams = "0.0.11"
+# TODO: Wait for fix in https://github.com/streamingfast/substreams-ethereum/pulls
+substreams-ethereum = { path = "../substreams-ethereum/core", version = "0.1.2" }
+num-bigint = "0.4"
+bigdecimal = "0.3"
+pad = "0.1"
+hex = "0.4.3"
+
+# Required so that ethabi > ethereum-types build correctly under wasm32-unknown-unknown
+[target.wasm32-unknown-unknown.dependencies]
+getrandom = { version = "0.2", features = ["custom"] }
+
+[build-dependencies]
+anyhow = "1"
+# TODO: Wait for fix in https://github.com/streamingfast/substreams-ethereum/pulls
+substreams-ethereum = { path = "../substreams-ethereum/core", version = "0.1.2" }
+
+[profile.release]
+lto = true
+opt-level = 's'
+strip = "debuginfo"
