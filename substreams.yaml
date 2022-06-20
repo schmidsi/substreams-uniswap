@@ -48,5 +48,15 @@ modules:
     inputs:
       - source: sf.ethereum.type.v1.Block
       - store: store_pairs
+      - store: store_tokens
     output:
       type: proto:uniswap.types.v1.Reserves
+
+  - name: store_reserves
+    kind: store
+    updatePolicy: set
+    valueType: string
+    inputs:
+      - source: sf.substreams.v1.Clock
+      - map: map_reserves
+      - store: store_pairs

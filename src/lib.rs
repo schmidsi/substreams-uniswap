@@ -115,3 +115,67 @@ fn map_reserves(
 
     Ok(uniswap::Reserves { reserves })
 }
+
+#[substreams::handlers::store]
+pub fn store_reserves(
+    clock: substreams::pb::substreams::Clock,
+    reserves: uniswap::Reserves,
+    pairs: store::StoreGet,
+    output: store::StoreSet,
+) {
+    let timestamp_seconds = clock.timestamp.unwrap().seconds;
+    let day_id: i64 = timestamp_seconds / 86400;
+    let hour_id: i64 = timestamp_seconds / 3600;
+
+    output.delete_prefix(0, &format!("pair_day:{}:", day_id - 1));
+    output.delete_prefix(0, &format!("pair_hour:{}:", hour_id - 1));
+
+    for reserve in reserves.reserves {
+        match pairs.get_last(&format!("pair:{}", Hex(&reserve.pair))) {
+            None => continue,
+            Some(pair_bytes) => {
+                let pair: uniswap::Pair = proto::decode(&pair_bytes).unwrap();
+
+                output.set(
+                    reserve.ordinal,
+                    format!("price:{}:{}:token0", Hex(&pair.address), Hex(&pair.token0)),
+                    &Vec::from(reserve.token0_price),
+                );
+
+                output.set(
+                    reserve.ordinal,
+                    format!("price:{}:{}:token1", Hex(&pair.address), Hex(&pair.token1)),
+                    &Vec::from(reserve.token1_price),
+                );
+
+                output.set_many(
+                    reserve.ordinal,
+                    &vec![
+                        format!(
+                            "reserve:{}:{}:reserve0",
+                            Hex(&reserve.pair),
+                            Hex(&pair.token0)
+                        ),
+                        format!("pair_day:{}:{}:reserve0", day_id, Hex(&pair.token0)),
+                        format!("pair_hour:{}:{}:reserve0", hour_id, Hex(&pair.token0)),
+                    ],
+                    &Vec::from(reserve.reserve0),
+                );
+
+                output.set_many(
+                    reserve.ordinal,
+                    &vec![
+                        format!(
+                            "reserve:{}:{}:reserve1",
+                            Hex(&pair.address),
+                            Hex(&pair.token1)
+                        ),
+                        format!("pair_day:{}:{}:reserve1", day_id, Hex(&pair.token1)),
+                        format!("pair_hour:{}:{}:reserve1", hour_id, Hex(&pair.token1)),
+                    ],
+                    &Vec::from(reserve.reserve1),
+                )
+            }
+        }
+    }
+}

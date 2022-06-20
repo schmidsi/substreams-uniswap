@@ -4,7 +4,7 @@ build:
 
 .PHONY: stream
 stream:
-	substreams run -e api-dev.streamingfast.io:443 substreams.yaml store_tokens -s 10008355 -t +10000
+	substreams run -e api-dev.streamingfast.io:443 substreams.yaml store_reserves -s 10008355 -t +10000
 
 .PHONY: codegen
 codegen:
