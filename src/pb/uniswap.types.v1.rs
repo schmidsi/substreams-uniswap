@@ -1,54 +1,54 @@
 // @generated
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Tokens {
-    #[prost(message, repeated, tag = "1")]
+    #[prost(message, repeated, tag="1")]
     pub tokens: ::prost::alloc::vec::Vec<Token>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Token {
-    #[prost(bytes = "vec", tag = "1")]
+    #[prost(bytes="vec", tag="1")]
     pub address: ::prost::alloc::vec::Vec<u8>,
-    #[prost(string, tag = "2")]
+    #[prost(string, tag="2")]
     pub symbol: ::prost::alloc::string::String,
-    #[prost(string, tag = "3")]
+    #[prost(string, tag="3")]
     pub name: ::prost::alloc::string::String,
-    #[prost(uint64, tag = "4")]
+    #[prost(uint64, tag="4")]
     pub decimals: u64,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Pairs {
-    #[prost(message, repeated, tag = "1")]
+    #[prost(message, repeated, tag="1")]
     pub pairs: ::prost::alloc::vec::Vec<Pair>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Pair {
-    #[prost(uint64, tag = "1")]
+    #[prost(uint64, tag="1")]
     pub ordinal: u64,
-    #[prost(bytes = "vec", tag = "2")]
+    #[prost(bytes="vec", tag="2")]
     pub address: ::prost::alloc::vec::Vec<u8>,
-    #[prost(bytes = "vec", tag = "3")]
+    #[prost(bytes="vec", tag="3")]
     pub token0: ::prost::alloc::vec::Vec<u8>,
-    #[prost(bytes = "vec", tag = "4")]
+    #[prost(bytes="vec", tag="4")]
     pub token1: ::prost::alloc::vec::Vec<u8>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Reserves {
-    #[prost(message, repeated, tag = "1")]
+    #[prost(message, repeated, tag="1")]
     pub reserves: ::prost::alloc::vec::Vec<Reserve>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct Reserve {
-    #[prost(uint64, tag = "1")]
+    #[prost(uint64, tag="1")]
     pub ordinal: u64,
-    #[prost(bytes = "vec", tag = "2")]
+    #[prost(bytes="vec", tag="2")]
     pub pair: ::prost::alloc::vec::Vec<u8>,
-    #[prost(string, tag = "3")]
+    #[prost(string, tag="3")]
     pub reserve0: ::prost::alloc::string::String,
-    #[prost(string, tag = "4")]
+    #[prost(string, tag="4")]
     pub reserve1: ::prost::alloc::string::String,
-    #[prost(string, tag = "5")]
+    #[prost(string, tag="5")]
     pub token0_price: ::prost::alloc::string::String,
-    #[prost(string, tag = "6")]
+    #[prost(string, tag="6")]
     pub token1_price: ::prost::alloc::string::String,
 }
 /// Encoded file descriptor set for the `uniswap.types.v1` package
